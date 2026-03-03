@@ -11,7 +11,7 @@ func fetchPriceWorker(id int, jobs <-chan PriceJob, results chan<- PriceResult, 
 	defer wg.Done()
 
 	client := http.Client{
-		Timeout: 60 * time.Second,
+		Timeout: 5 * time.Second,
 	}
 	for job := range jobs {
 		start := time.Now()

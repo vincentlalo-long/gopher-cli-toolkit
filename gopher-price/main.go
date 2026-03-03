@@ -1,7 +1,10 @@
 package main
 
 import (
+	//"fmt"
+	"encoding/json"
 	"fmt"
+	"net/http"
 	"sync"
 )
 
@@ -28,24 +31,35 @@ func main() {
 		{"ByBit", "https://api.bybit.com/v5/market/tickers?category=linear&symbol=BTCUSDT"},
 	}
 
-	jobs := make(chan PriceJob, len(targets))
-	results := make(chan PriceResult, len(targets))
-	var wg sync.WaitGroup
+	http.HandleFunc("/price", func(w http.ResponseWriter, r *http.Request) {
+		jobs := make(chan PriceJob, len(targets))
+		results := make(chan PriceResult, len(targets))
+		var wg sync.WaitGroup
 
-	for w := 1; w <= 3; w++ {
-		wg.Add(1)
-		go fetchPriceWorker(w, jobs, results, &wg)
-	}
-	for _, t := range targets {
-		jobs <- t
-	}
-	close(jobs)
+		for w := 1; w <= 3; w++ {
+			wg.Add(1)
+			go fetchPriceWorker(w, jobs, results, &wg)
+		}
 
-	go func() {
-		wg.Wait()
-		close(results)
-	}()
-	fmt.Printf("%-15s | %-12s | %-10s\n", "EXCHANGE", "PRICE (USD)", "LATENCY")
+		for _, t := range targets {
+			jobs <- t
+		}
+		close(jobs)
+
+		go func() {
+			wg.Wait()
+			close(results)
+		}()
+		var finalResults []PriceResult
+		for res := range results {
+			finalResults = append(finalResults, res)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(finalResults)
+	})
+	fmt.Println("Server đang chạy tại http://localhost:8080/price")
+	http.ListenAndServe(":8080", nil)
+	/*fmt.Printf("%-15s | %-12s | %-10s\n", "EXCHANGE", "PRICE (USD)", "LATENCY")
 	fmt.Println("--------------------------------------------")
 	for r := range results {
 		if r.Err != nil {
@@ -53,5 +67,5 @@ func main() {
 		} else {
 			fmt.Printf("%-15s | %-12s | %v\n", r.Exchange, r.Price, r.Duration)
 		}
-	}
+	}*/
 }
