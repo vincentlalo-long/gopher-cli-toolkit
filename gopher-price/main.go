@@ -27,7 +27,7 @@ func main() {
 	targets := []PriceJob{
 		{"Binance", "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"},
 		{"Binance-ETH", "https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT"},
-		{"KuCoin", "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=BTC-USDT"},
+		{"KuCoin", "https://api.kucoin.com/api/v3/market/orderbook/level1?symbol=BTC-USDT"},
 		{"ByBit", "https://api.bybit.com/v5/market/tickers?category=linear&symbol=BTCUSDT"},
 	}
 

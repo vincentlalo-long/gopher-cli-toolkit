@@ -4,13 +4,14 @@ import (
 	"gopherExplore/internal/models"
 	"os"
 	"path/filepath"
-	"strings"
+
+	//"strings"
 	"sync"
 )
 
 var sem = make(chan struct{}, 20)
 
-func Crawler(dir, ext string, results chan<- models.FileResult, wg *sync.WaitGroup) {
+func Crawler(config models.FilterConfig, dir string, results chan<- models.FileResult, wg *sync.WaitGroup) {
 	defer wg.Done()
 	sem <- struct{}{}
 	defer func() {
@@ -25,16 +26,18 @@ func Crawler(dir, ext string, results chan<- models.FileResult, wg *sync.WaitGro
 		//var wg sync.WaitGroup()
 		if entry.IsDir() {
 			wg.Add(1)
-			go Crawler(path, ext, results, wg)
-		} else if strings.EqualFold(strings.ToLower(filepath.Ext(path)), strings.ToLower(ext)) {
-			if info, err := entry.Info(); err == nil {
+			go Crawler(config, path, results, wg)
+		} else {
+			info, err := entry.Info()
+			if err != nil {
+				continue
+			}
+			if config.Matches(entry.Name(), info.Size(), filepath.Ext(path)) {
 				results <- models.FileResult{
-					Path:    path,
-					Size:    uint64(info.Size()),
-					ModTime: info.ModTime(),
+					Path: path,
+					Size: uint64(info.Size()),
 				}
 			}
-
 		}
 
 	}
