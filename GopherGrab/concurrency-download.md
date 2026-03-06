@@ -1,18 +1,22 @@
-gopher-grab/
+## GopherGrab Directory Structure
+
+```plaintext
+GopherGrab/
 ├── cmd/
 │   └── grabber/
-│       └── main.go       #  Read flag,  Worker Pool
+│       └── main.go         # Read flags, Worker Pool
 ├── internal/
 │   ├── models/
-│   │   └── job.go        #  DownloadJob, Result
+│   │   └── job.go          # Defines DownloadJob, Result
 │   ├── collector/
-│   │   ├── file_reader.go # Read URLs from file .txt
-│   │   └── folder_scan.go # Scan folder find file .txt (inheritance Project 1)
+│   │   ├── file_reader.go  # Read URLs from .txt file
+│   │   └── folder_scan.go  # Scan folder to find .txt files (inherits Project 1)
 │   ├── engine/
-│   │   ├── pool.go       #  Worker Logic
-│   │   └── downloader.go # Logic  file  download (http.Get, io.Copy)
+│   │   ├── pool.go         # Worker Pool logic
+│   │   └── downloader.go   # File download logic (http.Get, io.Copy)
 │   └── ui/
-│       └── progress.go   # progress Terminal
-├── downloads/            # download dir
-├── go.mod                #  module
-└── urls.txt              # File link 
+│       └── progress.go     # Terminal progress display
+├── downloads/              # Directory for downloaded files
+├── go.mod                  # Go module file
+└── urls.txt                # File containing download links
+```
