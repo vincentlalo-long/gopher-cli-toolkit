@@ -22,6 +22,8 @@ func DownloadFromURL(job models.DownloadJob) models.DownloadResult {
 	fullPath := filepath.Join(job.SavePath, job.FileName)
 	result.FullPath = fullPath
 
+	nameFile := filepath.Base(job.URL)
+	result.FileName = nameFile
 	// Request for http get
 	resp, err := http.Get(job.URL)
 	if err != nil {

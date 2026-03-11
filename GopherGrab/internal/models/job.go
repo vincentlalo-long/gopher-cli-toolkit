@@ -11,4 +11,5 @@ type DownloadResult struct {
 	FileName string
 	Size     uint64
 	Error    error
+	FullPath string
 }

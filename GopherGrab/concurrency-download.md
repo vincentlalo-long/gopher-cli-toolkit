@@ -9,8 +9,8 @@ GopherGrab/
 │   ├── models/
 │   │   └── job.go          # Defines DownloadJob, Result
 │   ├── collector/
-│   │   ├── file_reader.go  # Read URLs from .txt file
-│   │   └── folder_scan.go  # Scan folder to find .txt files (inherits Project 1)
+│   │   ├── collector.go  # Read URLs from .txt file
+│   │     
 │   ├── engine/
 │   │   ├── pool.go         # Worker Pool logic
 │   │   └── downloader.go   # File download logic (http.Get, io.Copy)
