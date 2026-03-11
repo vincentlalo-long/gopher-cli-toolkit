@@ -1,0 +1,13 @@
+{
+  "project": "J-Spec",
+  "version": 1.0,
+  "features": ["Extract", "Filter", "Format"],
+  "author": {
+    "name": "Gopher",
+    "skills": ["Go", "Networking", "Concurrency"]
+  },
+  "stats": [
+    {"day": "Mon", "tasks": 5},
+    {"day": "Tue", "tasks": 8}
+  ]
+}
