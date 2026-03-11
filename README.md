@@ -1,6 +1,6 @@
 # Go-Basic-2026
 
-A collection of 4 fundamental Go projects demonstrating goroutines, concurrency patterns, and practical CLI tools.
+A collection of 5 fundamental Go projects demonstrating goroutines, concurrency patterns, and practical CLI tools.
 
 ## Projects Overview
 
@@ -27,3 +27,9 @@ Run: `cd GopherGrab && go run ./cmd/grabber/main.go -file=url1.txt -out=download
 JSON query and processing tool similar to jq. Parse, filter, and format JSON data using path selectors and conditional filters. Supports stdin input and colorized pretty-printing.
 
 Run: `cd J-Spec && go run ./cmd/main.go -file=data.json -path=user.name -pretty=true`
+
+### 5. GopherNote
+
+Simple CLI note-taking application. Add notes to a file with metadata tracking (file size and modification time). List all saved notes with automatic ID numbering.
+
+Run: `cd GopherNote && go run ./cmd/main.go -add="Your note text"` or `go run ./cmd/main.go -list` to view all notes.
