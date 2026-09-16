@@ -1,35 +1,50 @@
-# Go-Basic-2026
+# Go Concurrency & CLI Toolkit
 
-A collection of 5 fundamental Go projects demonstrating goroutines, concurrency patterns, and practical CLI tools.
+A curated collection of practical Go projects focusing on concurrency patterns (goroutines, channels, worker pools), network I/O, streaming, and CLI utilities.
+
+## Workspace Architecture
+
+This repository is managed as a multi-module Go workspace via `go.work`:
+- [GopherGrab](file:///home/danglong/projects/tools/Go-Basic-2026/GopherGrab): High-performance concurrent file downloader.
+- [gopher-price](file:///home/danglong/projects/tools/Go-Basic-2026/gopher-price): Concurrent crypto price aggregator with REST API.
+- [J-Spec](file:///home/danglong/projects/tools/Go-Basic-2026/J-Spec): Fast JSON path querying and filtering CLI.
+- [gopherExplore](file:///home/danglong/projects/tools/Go-Basic-2026/gopherExplore): File system crawler with semaphore-throttled concurrency.
+
+---
 
 ## Projects Overview
 
-### 1. gopher-price
+### 1. GopherGrab
+High-performance concurrent downloader using a worker pool architecture. Downloads multiple files from URLs stored in text files or folders, with configurable worker counts and progress tracking.
 
-Concurrent cryptocurrency price fetcher that retrieves real-time Bitcoin and Ethereum prices from multiple exchanges (Binance, KuCoin, ByBit) using goroutine worker pools. Demonstrates HTTP requests, JSON parsing with different API schemas, and concurrent request handling.
+**Run:**
+```bash
+cd GopherGrab && go run ./cmd/grabber -file=url1.txt -out=downloads -worker=5
+```
 
-Run: `cd gopher-price && go run main.go model.go worker.go`, then visit http://localhost:8080/price in your browser.
+### 2. gopher-price
+Concurrent cryptocurrency price fetcher that retrieves real-time Bitcoin and Ethereum prices from multiple exchanges (Binance, KuCoin, ByBit) using goroutines and custom JSON parsers.
 
-### 2. gopherExplore
+**Run:**
+```bash
+cd gopher-price && go run .
+```
+Then visit `http://localhost:8080/price` in your browser.
 
-File system crawler that recursively searches directories for files by extension, name query, and minimum file size. Uses goroutines for concurrent file scanning across the directory tree.
+### 3. J-Spec
+Lightweight JSON query and processing tool similar to `jq`. Parse, filter, and format JSON data using path selectors and conditional expressions. Supports stdin Unix pipe input and formatted output.
 
-Run: `cd gopherExplore && go run ./cmd/main.go -path=. -ext=.pdf -query=report -min-size=1000`
+**Run:**
+```bash
+cd J-Spec && go run ./cmd -file=data.json -path=user.name -pretty=true
+# Or with Unix pipe:
+cat J-Spec/data.json | go run ./J-Spec/cmd -path=skills
+```
 
-### 3. GopherGrab
+### 4. gopherExplore
+File system crawler that scans directories for files matching specific extensions, name queries, and minimum file size limits using concurrent workers.
 
-High-performance concurrent downloader with worker pool architecture. Downloads multiple files from URLs stored in text files, with configurable worker count, colored output, and progress tracking.
-
-Run: `cd GopherGrab && go run ./cmd/grabber/main.go -file=url1.txt -out=downloads -worker=5`
-
-### 4. J-Spec
-
-JSON query and processing tool similar to jq. Parse, filter, and format JSON data using path selectors and conditional filters. Supports stdin input and colorized pretty-printing.
-
-Run: `cd J-Spec && go run ./cmd/main.go -file=data.json -path=user.name -pretty=true`
-
-### 5. GopherNote
-
-Simple CLI note-taking application. Add notes to a file with metadata tracking (file size and modification time). List all saved notes with automatic ID numbering.
-
-Run: `cd GopherNote && go run ./cmd/main.go -add="Your note text"` or `go run ./cmd/main.go -list` to view all notes.
+**Run:**
+```bash
+cd gopherExplore && go run ./cmd -path=. -ext=.go -min-size=500
+```

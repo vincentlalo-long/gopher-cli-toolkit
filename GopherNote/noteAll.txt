@@ -1,2 +1,0 @@
-Học Concurrency trong Go
-Học Go rountine
